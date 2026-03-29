@@ -1,0 +1,265 @@
+/* ApprovalQueue.css — 訂單審批卡片樣式 */
+
+.aq-root {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.aq-root--pending {
+  border-color: rgba(200, 169, 110, 0.4);
+  background: rgba(200, 169, 110, 0.05);
+}
+
+.aq-root--processing {
+  border-color: rgba(96, 165, 250, 0.35);
+  background: rgba(96, 165, 250, 0.05);
+}
+
+.aq-root--approved {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.04);
+}
+
+.aq-root--rejected {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.04);
+}
+
+/* ── 標題列 ── */
+.aq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.aq-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--gold);
+}
+
+.aq-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── 狀態徽章 ── */
+.aq-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 2px 9px;
+  border: 1px solid;
+}
+
+.aq-badge--pending {
+  color: var(--gold);
+  background: rgba(200, 169, 110, 0.12);
+  border-color: rgba(200, 169, 110, 0.3);
+}
+
+.aq-badge--processing {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.aq-badge--approved {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.aq-badge--rejected {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.aq-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.aq-dot--pulse {
+  animation: aq-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes aq-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ── 門檻提示 ── */
+.aq-threshold-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.aq-threshold-note strong {
+  color: var(--gold);
+}
+
+/* ── 表格 ── */
+.aq-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 10px;
+}
+
+.aq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.aq-table th {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding: 5px 8px;
+  text-align: left;
+}
+
+.aq-th-right { text-align: right !important; }
+.aq-th-center { text-align: center !important; }
+
+.aq-table td {
+  padding: 7px 8px;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.aq-table tr:last-child td { border-bottom: none; }
+
+.aq-td-right { text-align: right; }
+.aq-td-center { text-align: center; }
+.aq-mono { font-family: 'DM Mono', monospace; }
+
+.aq-qty-input {
+  width: 56px;
+  padding: 3px 6px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  text-align: center;
+  outline: none;
+}
+
+.aq-qty-input:focus {
+  border-color: var(--gold);
+}
+
+/* ── 金額摘要 ── */
+.aq-price-summary {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  margin-bottom: 14px;
+}
+
+.aq-price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 2px 0;
+}
+
+.aq-price-row--discount { color: #34d399; }
+
+.aq-price-row--total {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── 操作按鈕 ── */
+.aq-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.aq-btn {
+  padding: 7px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.18s ease;
+}
+
+.aq-btn--edit {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+  margin-right: auto;
+}
+
+.aq-btn--edit:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.aq-btn--reject {
+  background: transparent;
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+.aq-btn--reject:hover {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: #f87171;
+}
+
+.aq-btn--approve {
+  background: var(--gold);
+  color: #0a0a0a;
+  border-color: var(--gold);
+}
+
+.aq-btn--approve:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* ── 旋轉動畫 ── */
+.aq-spinner-sm {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: aq-spin 0.7s linear infinite;
+}
+
+@keyframes aq-spin {
+  to { transform: rotate(360deg); }
+}

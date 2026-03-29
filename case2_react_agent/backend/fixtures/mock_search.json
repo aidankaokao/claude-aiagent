@@ -1,0 +1,50 @@
+[
+  {
+    "keywords": ["langgraph", "lang graph"],
+    "result": "【LangGraph 簡介】\nLangGraph 是 LangChain 團隊開發的 Agent 框架，將 AI Agent 的邏輯建模為有向圖（Directed Graph）。核心概念：節點（Node）代表處理步驟，邊（Edge）代表流向，支援循環與條件分支。與線性的 LLM chain 不同，LangGraph 能實現 ReAct、Plan-Execute、HITL 等複雜 Agent 模式。最新版本支援 multi-agent 架構與持久化 checkpoint。\n來源：https://langchain-ai.github.io/langgraph/"
+  },
+  {
+    "keywords": ["langchain"],
+    "result": "【LangChain 簡介】\nLangChain 是一個開源 LLM 應用開發框架（MIT license），提供模型介面、prompt 管理、記憶體、工具整合等元件。支援 OpenAI、Gemini、Ollama 等多種 LLM。LangGraph 是其子項目，專注於 Agent 工作流程。\n來源：https://python.langchain.com/"
+  },
+  {
+    "keywords": ["python", "程式語言"],
+    "result": "【Python 語言概述】\nPython 是一種高階、動態型別的程式語言，以簡潔的語法著稱。廣泛用於 AI/ML（PyTorch、TensorFlow）、Web 開發（FastAPI、Django）、資料分析（Pandas、NumPy）。Python 3.11 在效能上比 3.10 提升約 10-60%。目前最新穩定版為 Python 3.12。\n來源：https://www.python.org/"
+  },
+  {
+    "keywords": ["fastapi"],
+    "result": "【FastAPI 簡介】\nFastAPI 是一個現代化的 Python Web 框架（MIT license），基於 Starlette 與 Pydantic 建構。特色：自動產生 OpenAPI 文件、原生支援 async/await、型別安全。效能與 NodeJS、Go 相當。支援 WebSocket 與 SSE（Server-Sent Events）。\n來源：https://fastapi.tiangolo.com/"
+  },
+  {
+    "keywords": ["react", "reactjs"],
+    "result": "【React 簡介】\nReact 是 Meta 開發的前端 UI 函式庫（MIT license）。使用 Virtual DOM 與元件化開發，支援 Hooks（useState、useEffect 等）進行狀態管理。搭配 TypeScript 可獲得完整型別支援。目前主流版本為 React 18，支援 Concurrent Mode 與自動批次更新。\n來源：https://react.dev/"
+  },
+  {
+    "keywords": ["docker", "容器"],
+    "result": "【Docker 容器化技術】\nDocker 是主流的容器化平台，透過 Dockerfile 定義映像、docker-compose 管理多容器服務。容器共享宿主機 OS kernel，比虛擬機更輕量。常見指令：docker build（建置映像）、docker-compose up -d（後台啟動）、docker logs（查看日誌）。\n來源：https://docs.docker.com/"
+  },
+  {
+    "keywords": ["sqlite", "資料庫"],
+    "result": "【SQLite 嵌入式資料庫】\nSQLite 是一個嵌入式關聯式資料庫，無需獨立伺服器程序，資料儲存於單一 .db 檔案。適合開發環境與中小型應用。Python 內建 sqlite3 模組，SQLAlchemy 也完整支援。遷移至 PostgreSQL 時，只需修改 connection string，SQLAlchemy Core 的查詢語法不需改變。\n來源：https://www.sqlite.org/"
+  },
+  {
+    "keywords": ["openai", "gpt", "chatgpt"],
+    "result": "【OpenAI GPT 系列】\nOpenAI 提供 GPT-4o、GPT-4o-mini 等模型。GPT-4o-mini 是性價比最高的選擇，支援 function calling（工具呼叫）、streaming、vision。API 採用 OpenAI 相容格式，Gemini、各類開源模型（透過 Ollama）均支援相同介面。\n來源：https://platform.openai.com/docs"
+  },
+  {
+    "keywords": ["ollama"],
+    "result": "【Ollama 本地 LLM 運行工具】\nOllama 讓你在本地電腦執行開源 LLM（Llama 3、Mistral、Qwen 等）。提供與 OpenAI 相容的 API 介面（base_url: http://localhost:11434/v1）。支援 GPU 加速（NVIDIA CUDA、Apple Metal）。\n來源：https://ollama.ai/"
+  },
+  {
+    "keywords": ["台灣", "taiwan"],
+    "result": "【台灣基本資訊】\n台灣（正式名稱：中華民國）位於東亞，面積約 3.6 萬平方公里，人口約 2,300 萬。首都台北。以半導體產業（台積電 TSMC）聞名全球，科技業發達。官方語言為中文（繁體），另有台語、客語等在地語言。\n來源：維基百科"
+  },
+  {
+    "keywords": ["ai", "人工智慧", "artificial intelligence"],
+    "result": "【人工智慧現況（2024-2025）】\n大型語言模型（LLM）主導 AI 發展，代表性模型包含 GPT-4o（OpenAI）、Claude 3.5（Anthropic）、Gemini 1.5（Google）。Agent 應用成為主流方向，能夠自主規劃並執行多步驟任務。開源生態活躍，Llama 3、Mistral 等模型可在本地運行。\n來源：整合多方資料"
+  },
+  {
+    "keywords": ["sse", "server-sent events", "串流"],
+    "result": "【SSE（Server-Sent Events）技術】\nSSE 是 HTTP 標準的單向推送技術，伺服器可主動傳送事件給瀏覽器。格式：每個事件包含 event: 與 data: 欄位，以空行分隔。與 WebSocket 相比，SSE 更輕量、自動重連、基於 HTTP，適合 LLM 逐字輸出的場景。\n來源：https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events"
+  }
+]

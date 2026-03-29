@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 先複製兩份 requirements.txt 並一次安裝，充分利用 Docker layer 快取
+COPY mcp_server/requirements.txt /tmp/mcp_req.txt
+COPY backend/requirements.txt /tmp/back_req.txt
+RUN pip install --no-cache-dir -r /tmp/mcp_req.txt -r /tmp/back_req.txt
+
+# 複製 MCP Server 程式碼（backend 需要在同一映像中執行此子程序）
+COPY mcp_server/ /app/mcp_server/
+
+# 複製後端程式碼
+COPY backend/ /app/backend/
+
+# 確保資料目錄存在（掛載 volume 前會自動建立）
+RUN mkdir -p /app/data
+
+# 切換至 backend 目錄執行（config.py 的相對路徑基準點）
+WORKDIR /app/backend
+
+EXPOSE 8000
+
+CMD ["python", "api.py"]

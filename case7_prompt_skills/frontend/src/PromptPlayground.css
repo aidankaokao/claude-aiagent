@@ -1,0 +1,360 @@
+/* PromptPlayground.css */
+
+.pg-root {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── 左側控制面板 ── */
+.pg-controls {
+  width: 300px;
+  min-width: 260px;
+  border-right: 1px solid var(--border);
+  padding: 16px 14px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.pg-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* 技能列表 */
+.pg-skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pg-skill-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 7px;
+  color: var(--text2);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+}
+.pg-skill-btn:hover { border-color: rgba(200,169,110,0.3); color: var(--text); }
+.pg-skill-btn--active {
+  border-color: rgba(200,169,110,0.4);
+  background: rgba(200,169,110,0.06);
+  color: var(--gold);
+}
+
+/* 技能有參數時顯示的小標籤 */
+.pg-skill-badge {
+  margin-left: auto;
+  font-size: 9px;
+  padding: 1px 5px;
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.25);
+  border-radius: 3px;
+  color: #60a5fa;
+  flex-shrink: 0;
+}
+
+/* ── 參數表單 ── */
+.pg-param-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pg-param-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pg-param-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pg-param-required {
+  color: #f87171;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.pg-param-input {
+  width: 100%;
+  padding: 6px 9px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.12s;
+  box-sizing: border-box;
+}
+.pg-param-input:focus { border-color: var(--gold-dim); }
+.pg-param-input::placeholder { color: var(--muted); }
+
+.pg-param-textarea {
+  width: 100%;
+  padding: 6px 9px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.12s;
+  box-sizing: border-box;
+}
+.pg-param-textarea:focus { border-color: var(--gold-dim); }
+.pg-param-textarea::placeholder { color: var(--muted); }
+
+/* System Prompt 展開/收合按鈕 */
+.pg-prompt-toggle {
+  margin-left: 8px;
+  font-size: 10px;
+  padding: 1px 7px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  vertical-align: middle;
+}
+.pg-prompt-toggle:hover { color: var(--text2); }
+
+.pg-prompt-subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+/* Prompt 預覽 */
+.pg-prompt-preview {
+  margin-top: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px;
+}
+
+.pg-prompt-preview-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.pg-prompt-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+  white-space: pre-wrap;
+  line-height: 1.6;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.pg-example {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.pg-example-role {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.pg-example-role--assistant { color: #60a5fa; margin-top: 6px; }
+
+.pg-example-content {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* Input */
+.pg-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 7px;
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 10px;
+}
+.pg-input:focus { border-color: var(--gold-dim); }
+.pg-input::placeholder { color: var(--muted); }
+
+/* Actions */
+.pg-actions { display: flex; gap: 8px; }
+
+.pg-run-btn {
+  flex: 1;
+  padding: 8px 16px;
+  background: var(--gold);
+  border: none;
+  border-radius: 7px;
+  color: #0a0a0a;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pg-run-btn:hover:not(:disabled) { opacity: 0.85; }
+.pg-run-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.pg-stop-btn {
+  flex: 1;
+  padding: 8px 16px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 7px;
+  color: #f87171;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+.pg-stop-btn:hover { background: rgba(239,68,68,0.15); }
+
+/* ── 右側輸出區 ── */
+.pg-output-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.pg-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  color: var(--muted);
+}
+.pg-empty-icon { font-size: 36px; }
+.pg-empty-text { font-size: 13px; text-align: center; max-width: 260px; line-height: 1.6; }
+
+/* Result card */
+.pg-result {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.pg-result-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+
+.pg-result-skill {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.pg-result-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: pg-spin 0.7s linear infinite;
+}
+@keyframes pg-spin { to { transform: rotate(360deg); } }
+
+.pg-result-done {
+  font-size: 11px;
+  color: #34d399;
+}
+
+.pg-result-body {
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  min-height: 60px;
+}
+
+.pg-result-body p { margin-bottom: 0.6em; }
+.pg-result-body p:last-child { margin-bottom: 0; }
+.pg-result-body ul, .pg-result-body ol { padding-left: 1.4em; margin-bottom: 0.6em; }
+.pg-result-body h1,.pg-result-body h2,.pg-result-body h3 { margin: 0.8em 0 0.4em; font-weight: 600; }
+.pg-result-body code {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  background: var(--input-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.pg-result-body pre {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  margin: 0.6em 0;
+}
+.pg-result-body pre code { background: none; padding: 0; }
+.pg-result-body blockquote {
+  border-left: 3px solid var(--gold-dim);
+  padding-left: 12px;
+  color: var(--text2);
+  margin: 0.6em 0;
+}
+
+.pg-typing {
+  color: var(--muted);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }

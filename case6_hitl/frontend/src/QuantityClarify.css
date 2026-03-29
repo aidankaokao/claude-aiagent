@@ -1,0 +1,227 @@
+/* QuantityClarify.css — 數量確認卡片 */
+
+.qc-root {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.qc-root--pending {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: rgba(96, 165, 250, 0.05);
+}
+
+.qc-root--processing {
+  border-color: rgba(96, 165, 250, 0.35);
+  background: rgba(96, 165, 250, 0.05);
+}
+
+.qc-root--resolved {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.04);
+}
+
+/* ── 標題列 ── */
+.qc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.qc-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #60a5fa;
+}
+
+.qc-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #60a5fa;
+}
+
+/* ── 狀態徽章 ── */
+.qc-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 2px 9px;
+  border: 1px solid;
+}
+
+.qc-badge--pending {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.qc-badge--processing {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.qc-badge--resolved {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.qc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.qc-dot--pulse {
+  animation: qc-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes qc-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.qc-spinner-sm {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: qc-spin 0.7s linear infinite;
+}
+
+@keyframes qc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── 說明文字 ── */
+.qc-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* ── 每個品項 ── */
+.qc-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.qc-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.qc-item-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.qc-item-icon {
+  color: #60a5fa;
+  flex-shrink: 0;
+}
+
+.qc-item-name span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qc-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.qc-qty-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.qc-qty-input {
+  width: 56px;
+  padding: 3px 6px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+}
+
+.qc-qty-input:focus {
+  border-color: #60a5fa;
+}
+
+.qc-qty-value {
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  font-weight: 600;
+  min-width: 28px;
+  text-align: center;
+}
+
+.qc-qty-unit {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── 操作按鈕 ── */
+.qc-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.qc-btn {
+  padding: 7px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.18s ease;
+}
+
+.qc-btn--confirm {
+  background: #60a5fa;
+  color: #0a0a0a;
+  border-color: #60a5fa;
+}
+
+.qc-btn--confirm:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}

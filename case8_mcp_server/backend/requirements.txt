@@ -1,0 +1,8 @@
+fastapi>=0.111.0
+uvicorn>=0.30.0
+sse-starlette>=2.1.0
+langchain-openai>=0.1.0
+langchain-mcp-adapters>=0.1.0
+langgraph>=0.2.0
+pydantic-settings>=2.0.0
+sqlalchemy>=2.0.0

@@ -1,0 +1,44 @@
+services:
+  case7-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "${BACKEND_PORT}:8000"
+    env_file: .env
+    volumes:
+      - case7-data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    networks:
+      - aiagent-network
+
+  case7-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    networks:
+      - aiagent-network
+
+volumes:
+  case7-data:
+
+networks:
+  aiagent-network:
+    external: true

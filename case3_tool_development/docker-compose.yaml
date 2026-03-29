@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  case3-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: case3-backend
+    ports:
+      - "${BACKEND_PORT}:8000"
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+  case3-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: case3-frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    depends_on:
+      - case3-backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+networks:
+  aiagent-network:
+    external: true

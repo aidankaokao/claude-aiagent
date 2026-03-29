@@ -1,0 +1,33 @@
+{
+  "東京": [
+    {"name": "築地壽司清", "cuisine": "壽司", "specialty": "頂級鮪魚大腹、海膽、鮭魚卵", "price_range": "高（¥5,000-15,000）", "area": "築地", "rating": 4.8},
+    {"name": "一蘭拉麵", "cuisine": "拉麵", "specialty": "豚骨拉麵，獨立隔間專注享用", "price_range": "中（¥1,000-1,500）", "area": "澀谷/多店", "rating": 4.5},
+    {"name": "牛丼吉野家", "cuisine": "日式快食", "specialty": "牛丼、豬排丼，24 小時營業", "price_range": "低（¥400-800）", "area": "全東京多店", "rating": 4.0},
+    {"name": "鳥貴族", "cuisine": "居酒屋", "specialty": "均一價炭燒雞串，搭配生啤最對味", "price_range": "中（¥2,000-3,000）", "area": "澀谷/新宿多店", "rating": 4.3},
+    {"name": "天一天婦羅", "cuisine": "天婦羅", "specialty": "現炸蝦天婦羅、蔬菜天婦羅定食", "price_range": "中高（¥2,000-5,000）", "area": "銀座", "rating": 4.6}
+  ],
+  "大阪": [
+    {"name": "くくる章魚燒", "cuisine": "章魚燒", "specialty": "外酥內嫩章魚燒，道頓堀必吃", "price_range": "低（¥600-1,000）", "area": "道頓堀", "rating": 4.6},
+    {"name": "稲匠串炸", "cuisine": "串炸", "specialty": "炸串配高麗菜絲，不能二次沾醬是規矩", "price_range": "中（¥1,500-3,000）", "area": "新世界", "rating": 4.5},
+    {"name": "今井烏冬麵", "cuisine": "烏冬麵", "specialty": "大阪風昆布高湯烏冬，創業 80 年老店", "price_range": "低中（¥800-1,500）", "area": "難波", "rating": 4.7},
+    {"name": "鶴橋韓國城燒肉", "cuisine": "韓式燒肉", "specialty": "和牛牛腸、五花肉，鶴橋最道地", "price_range": "中（¥2,500-4,000）", "area": "鶴橋", "rating": 4.4}
+  ],
+  "京都": [
+    {"name": "瓢亭", "cuisine": "懷石料理", "specialty": "400 年老字號懷石，鴨川畔優雅用餐", "price_range": "極高（¥30,000+）", "area": "南禅寺", "rating": 4.9},
+    {"name": "錦市場各攤", "cuisine": "京都小吃", "specialty": "京漬物、鰊魚甘露煮、豆腐甜點", "price_range": "低（¥200-600/品）", "area": "錦市場", "rating": 4.6},
+    {"name": "祗園辻利抹茶", "cuisine": "甜點", "specialty": "抹茶聖代、抹茶巴菲，京都必吃", "price_range": "低中（¥800-1,500）", "area": "祇園", "rating": 4.7},
+    {"name": "湯豆腐南禅寺", "cuisine": "豆腐料理", "specialty": "南禅寺豆腐套餐，清淡健康的京都風味", "price_range": "中高（¥2,500-5,000）", "area": "南禅寺", "rating": 4.5}
+  ],
+  "台北": [
+    {"name": "鼎泰豐（信義店）", "cuisine": "台灣/小籠包", "specialty": "小籠包、蝦仁炒飯、酸辣湯", "price_range": "中（NT$600-1,000）", "area": "信義區", "rating": 4.8},
+    {"name": "添財日本料理", "cuisine": "日式料理", "specialty": "台北平價日料，生魚片、壽司品質高", "price_range": "中（NT$500-1,000）", "area": "中山區", "rating": 4.5},
+    {"name": "寧夏夜市", "cuisine": "台灣夜市", "specialty": "豬血糕、蚵仔煎、麻辣臭豆腐", "price_range": "低（NT$50-200/品）", "area": "大同區", "rating": 4.5},
+    {"name": "欣葉台菜", "cuisine": "台灣料理", "specialty": "菜脯蛋、三杯雞、砂鍋魚頭", "price_range": "中（NT$600-1,200）", "area": "中山區", "rating": 4.6}
+  ],
+  "首爾": [
+    {"name": "土俗村蔘雞湯", "cuisine": "韓食", "specialty": "人蔘雞湯，排隊名店，整隻雞料足味鮮", "price_range": "中（₩17,000-25,000）", "area": "鐘路區", "rating": 4.7},
+    {"name": "廣藏市場生魚片區", "cuisine": "生魚片", "specialty": "新鮮比目魚、章魚生切，現場享用最鮮", "price_range": "中（₩20,000-40,000）", "area": "鐘路區", "rating": 4.6},
+    {"name": "新村燉牛排骨", "cuisine": "韓食", "specialty": "醬燒牛排骨，軟嫩入味，台灣客最愛", "price_range": "中高（₩30,000-50,000）", "area": "西大門區", "rating": 4.5},
+    {"name": "明洞辣炒年糕", "cuisine": "韓國街食", "specialty": "辣炒年糕、韓式煎餅、魚板串", "price_range": "低（₩3,000-7,000/品）", "area": "中區", "rating": 4.3}
+  ]
+}

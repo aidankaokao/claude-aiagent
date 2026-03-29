@@ -1,0 +1,269 @@
+/*
+ * InventoryTable.css — 庫存資料表樣式
+ * 承繼 Chat.css 的 CSS 變數（--bg, --surface, --border, --text, --gold 等）
+ */
+
+/* 整個庫存面板容器 */
+.inv-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+}
+
+/* 標題列 */
+.inv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.inv-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inv-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 低庫存計數徽章 */
+.inv-low-badge {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: rgba(224, 92, 92, 0.15);
+  color: var(--danger);
+  border: 1px solid rgba(224, 92, 92, 0.3);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+/* 手動刷新按鈕 */
+.inv-refresh-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.inv-refresh-btn:hover:not(:disabled) {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  background: rgba(200, 169, 110, 0.08);
+}
+.inv-refresh-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 篩選列 */
+.inv-filters {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.inv-search {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.inv-search:focus {
+  border-color: var(--input-focus);
+}
+.inv-search::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.inv-select {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.inv-select:focus {
+  border-color: var(--input-focus);
+}
+
+/* 表格捲動容器 */
+.inv-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.inv-table-wrap::-webkit-scrollbar { width: 4px; }
+.inv-table-wrap::-webkit-scrollbar-track { background: transparent; }
+.inv-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* 表格本體 */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.inv-table th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  padding: 7px 10px;
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.inv-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+.cb-root.light .inv-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* 低庫存整列高亮 */
+.inv-row--low {
+  background: rgba(224, 92, 92, 0.04);
+}
+.inv-row--low:hover {
+  background: rgba(224, 92, 92, 0.08) !important;
+}
+
+.inv-table tr:hover td {
+  background: rgba(200, 169, 110, 0.04);
+}
+
+/* 欄位樣式 */
+.inv-name {
+  font-weight: 500;
+  color: var(--text);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inv-category {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.inv-qty {
+  font-family: 'DM Mono', monospace;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+/* 低庫存數量以紅色標示 */
+.inv-qty--low {
+  color: var(--danger);
+}
+
+.inv-min {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* 庫存狀態標籤 */
+.inv-status {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  white-space: nowrap;
+}
+
+.inv-status--low {
+  background: rgba(224, 92, 92, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(224, 92, 92, 0.25);
+}
+
+.inv-status--normal {
+  background: rgba(200, 169, 110, 0.1);
+  color: var(--gold);
+  border: 1px solid rgba(200, 169, 110, 0.2);
+}
+
+.inv-status--high {
+  background: rgba(76, 175, 125, 0.1);
+  color: var(--status-ok);
+  border: 1px solid rgba(76, 175, 125, 0.2);
+}
+
+/* 空狀態與錯誤訊息 */
+.inv-empty,
+.inv-error {
+  padding: 40px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.inv-error {
+  color: var(--danger);
+}
+
+/* 底部統計 */
+.inv-footer {
+  padding: 6px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* 刷新動畫 */
+@keyframes inv-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

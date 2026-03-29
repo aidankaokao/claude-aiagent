@@ -1,0 +1,38 @@
+FROM node:18-alpine AS build
+
+WORKDIR /app
+
+# 安裝相依套件
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install
+
+# 複製程式碼並建置
+COPY frontend/ .
+RUN npm run build
+
+# --- 生產環境：使用 nginx 服務靜態檔案 ---
+FROM nginx:alpine
+
+# 複製建置產物
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# nginx 設定：SPA fallback + API proxy
+RUN echo 'server { \
+  listen 5173; \
+  root /usr/share/nginx/html; \
+  index index.html; \
+  location /api/ { \
+    proxy_pass http://case1-backend:8000/api/; \
+    proxy_set_header Host $host; \
+    proxy_set_header Connection ""; \
+    proxy_buffering off; \
+    proxy_cache off; \
+  } \
+  location / { \
+    try_files $uri $uri/ /index.html; \
+  } \
+}' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 5173
+
+CMD ["nginx", "-g", "daemon off;"]

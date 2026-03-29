@@ -1,0 +1,39 @@
+{
+  "東京": [
+    {"name": "淺草寺", "category": "寺廟神社", "description": "東京最古老的寺廟，仲見世商店街充滿傳統手工藝品與小吃", "rating": 4.8, "duration": "1-2小時", "area": "淺草", "tip": "建議早上 8 點前到達避開人潮"},
+    {"name": "東京鐵塔", "category": "地標景點", "description": "333 公尺高的鐵塔，夜景尤其壯觀，主展望台在 150 公尺處", "rating": 4.6, "duration": "1-2小時", "area": "港區", "tip": "日落前後 1 小時為最佳觀賞時機"},
+    {"name": "新宿御苑", "category": "公園自然", "description": "東京最大的國家庭園，春季賞櫻名所，融合日式、法式、英式庭園", "rating": 4.7, "duration": "2-3小時", "area": "新宿", "tip": "春季 3-4 月賞櫻最美"},
+    {"name": "築地場外市場", "category": "美食文化", "description": "世界頂級海鮮市場，新鮮壽司與海鮮丼馳名全球", "rating": 4.5, "duration": "1-2小時", "area": "築地", "tip": "建議早上 7-10 點前往，下午多數攤位已售完"},
+    {"name": "東京迪士尼樂園", "category": "主題樂園", "description": "日本首座迪士尼樂園，一年四季皆有主題活動", "rating": 4.9, "duration": "全天", "area": "千葉浦安", "tip": "建議提前購票，週末人潮眾多"},
+    {"name": "上野公園", "category": "公園博物館", "description": "東京最大的公園之一，鄰近多個國立博物館與動物園", "rating": 4.5, "duration": "3-4小時", "area": "上野", "tip": "東京國立博物館值得花 2 小時參觀"},
+    {"name": "渋谷十字路口", "category": "都市景觀", "description": "全球最繁忙的十字路口，代表東京現代都市風貌", "rating": 4.4, "duration": "30分鐘", "area": "渋谷", "tip": "從 Starbucks 二樓可俯瞰十字路口全景"}
+  ],
+  "大阪": [
+    {"name": "大阪城", "category": "歷史古蹟", "description": "豐臣秀吉所建的雄偉城堡，天守閣內為博物館", "rating": 4.6, "duration": "2-3小時", "area": "大阪城公園", "tip": "春季公園內的櫻花與城堡相映成趣"},
+    {"name": "道頓堀", "category": "美食商圈", "description": "大阪最熱鬧的美食街，章魚燒、串炸、拉麵一條街", "rating": 4.7, "duration": "2-3小時", "area": "難波", "tip": "晚上霓虹燈亮起時最有氣氛"},
+    {"name": "通天閣", "category": "地標景點", "description": "大阪象徵性鐵塔，俯瞰新世界懷舊商圈", "rating": 4.3, "duration": "1小時", "area": "新世界", "tip": "周邊串炸名店眾多，可邊走邊吃"},
+    {"name": "環球影城大阪", "category": "主題樂園", "description": "哈利波特魔法世界、超級任天堂世界均設於此", "rating": 4.9, "duration": "全天", "area": "此花區", "tip": "超級任天堂世界需額外預約入場"},
+    {"name": "黑門市場", "category": "美食文化", "description": "大阪的廚房，生鮮、熟食應有盡有，新鮮螃蟹最受歡迎", "rating": 4.5, "duration": "1-2小時", "area": "日本橋", "tip": "建議上午前往，食材最新鮮"}
+  ],
+  "京都": [
+    {"name": "伏見稲荷大社", "category": "寺廟神社", "description": "千本鳥居綿延 4 公里，是京都最具代表性的景點", "rating": 4.9, "duration": "2-3小時", "area": "伏見區", "tip": "早晨或傍晚人少，適合拍照"},
+    {"name": "金閣寺", "category": "世界遺產", "description": "金箔覆蓋的三層寺廟倒映於鏡湖池，美不勝收", "rating": 4.8, "duration": "1小時", "area": "北區", "tip": "門票含抹茶，可邊喝邊欣賞庭園"},
+    {"name": "嵐山竹林", "category": "自然景觀", "description": "高聳竹林小徑，晨光灑落時如夢似幻", "rating": 4.7, "duration": "1-2小時", "area": "嵐山", "tip": "清晨 6-8 點遊客最少，光線最美"},
+    {"name": "清水寺", "category": "世界遺產", "description": "懸崖上的古寺，清水舞台為國寶建築，俯瞰京都市區", "rating": 4.8, "duration": "1-2小時", "area": "東山區", "tip": "三年坂、二年坂商店街值得逛逛"},
+    {"name": "祇園", "category": "歷史街區", "description": "保留江戶時代風貌的花街，偶有機會見到舞妓", "rating": 4.6, "duration": "1-2小時", "area": "東山區", "tip": "花見小路在傍晚 5-7 點氣氛最佳"}
+  ],
+  "台北": [
+    {"name": "台北 101", "category": "地標景點", "description": "508 公尺高的摩天大樓，觀景台可俯瞰全台北盆地", "rating": 4.5, "duration": "1-2小時", "area": "信義區", "tip": "晴天能遠眺大屯山與觀音山"},
+    {"name": "故宮博物院", "category": "博物館", "description": "收藏逾 70 萬件中華文物，翠玉白菜與肉形石最負盛名", "rating": 4.7, "duration": "3-4小時", "area": "士林", "tip": "建議購買導覽票，文物背景知識豐富參觀體驗"},
+    {"name": "九份老街", "category": "歷史街區", "description": "山城茶樓群、石板階梯，《千與千尋》靈感來源之說廣為流傳", "rating": 4.6, "duration": "3-4小時", "area": "新北瑞芳", "tip": "傍晚點燈後最美，建議傍晚 4 點前往"},
+    {"name": "士林夜市", "category": "美食文化", "description": "台灣規模最大的夜市，大雞排、蚵仔煎、珍珠奶茶一應俱全", "rating": 4.5, "duration": "2-3小時", "area": "士林", "tip": "地下美食廣場寬敞，適合雨天"},
+    {"name": "陽明山國家公園", "category": "自然景觀", "description": "台北後花園，硫磺溫泉、竹子湖繡球花、春季芒草皆知名", "rating": 4.6, "duration": "半天", "area": "陽明山", "tip": "春季 4-5 月杜鵑花季最美"}
+  ],
+  "首爾": [
+    {"name": "景福宮", "category": "歷史古蹟", "description": "朝鮮王朝正宮，穿韓服入場可免費，常有傳統儀式表演", "rating": 4.7, "duration": "2-3小時", "area": "鐘路區", "tip": "更漏儀式每天 10:00 和 14:00"},
+    {"name": "明洞", "category": "購物商圈", "description": "韓國最熱鬧的購物街，美妝、流行服飾、街頭小吃密集", "rating": 4.4, "duration": "2-3小時", "area": "中區", "tip": "平日下午比週末人少，購物更舒適"},
+    {"name": "北村韓屋村", "category": "歷史街區", "description": "保存完好的傳統韓屋聚落，可感受朝鮮時代民居氛圍", "rating": 4.5, "duration": "1-2小時", "area": "鐘路區", "tip": "住宅區請保持安靜，部分民宅提供韓服體驗"},
+    {"name": "南山首爾塔", "category": "地標景點", "description": "海拔 480 公尺的首爾地標，360 度全景展望台", "rating": 4.6, "duration": "1-2小時", "area": "用山區", "tip": "纜車排隊時間長，建議搭公車上山"},
+    {"name": "廣藏市場", "category": "美食文化", "description": "首爾最古老的市場，綠豆煎餅、辣炒年糕、生魚片是招牌", "rating": 4.5, "duration": "1-2小時", "area": "鐘路區", "tip": "早晨 8-10 點可見在地人買菜，最有市井氣息"}
+  ]
+}

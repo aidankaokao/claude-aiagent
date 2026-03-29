@@ -1,0 +1,262 @@
+/* ProductSelector.css — 商品選擇卡片 */
+
+.ps-root {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ps-root--pending {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: rgba(96, 165, 250, 0.05);
+}
+
+.ps-root--processing {
+  border-color: rgba(96, 165, 250, 0.35);
+  background: rgba(96, 165, 250, 0.05);
+}
+
+.ps-root--resolved {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.04);
+}
+
+/* ── 標題列 ── */
+.ps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ps-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #60a5fa;
+}
+
+.ps-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #60a5fa;
+}
+
+/* ── 狀態徽章 ── */
+.ps-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 2px 9px;
+  border: 1px solid;
+}
+
+.ps-badge--pending {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.ps-badge--processing {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.ps-badge--resolved {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.ps-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ps-dot--pulse {
+  animation: ps-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes ps-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.ps-spinner-sm {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ps-spin 0.7s linear infinite;
+}
+
+@keyframes ps-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── 說明文字 ── */
+.ps-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* ── 每個未解析品項 ── */
+.ps-item {
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+
+.ps-item:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+}
+
+.ps-item-query {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ps-item-query strong { color: #60a5fa; }
+
+.ps-qty-inline {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ps-qty-input {
+  width: 52px;
+  padding: 2px 5px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  text-align: center;
+  outline: none;
+}
+
+.ps-qty-input:focus { border-color: #60a5fa; }
+
+/* ── 候選商品清單 ── */
+.ps-candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ps-candidate {
+  position: relative;
+  padding: 8px 36px 8px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  width: 100%;
+}
+
+.ps-candidate:hover:not(:disabled) {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: rgba(96, 165, 250, 0.06);
+}
+
+.ps-candidate--selected {
+  border-color: rgba(96, 165, 250, 0.6) !important;
+  background: rgba(96, 165, 250, 0.1) !important;
+}
+
+.ps-candidate:disabled { cursor: default; }
+
+.ps-candidate-name {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.ps-candidate-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ps-candidate-category {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.ps-candidate-price {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--gold);
+}
+
+.ps-check {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #60a5fa;
+}
+
+/* ── 操作按鈕 ── */
+.ps-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.ps-btn {
+  padding: 7px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.18s ease;
+}
+
+.ps-btn--confirm {
+  background: #60a5fa;
+  color: #0a0a0a;
+  border-color: #60a5fa;
+}
+
+.ps-btn--confirm:hover:not(:disabled) {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.ps-btn--confirm:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}

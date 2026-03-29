@@ -1,0 +1,15 @@
+# LangGraph AI Agent - Case 4: Plan-Execute Agent
+# Python 3.11+
+
+langgraph>=0.2.0
+langchain-openai>=0.2.0
+langchain-core>=0.3.0
+
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+sse-starlette>=2.0.0
+
+sqlalchemy>=2.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
