@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  case9-backend:
+    image: claude-aiagent-case9-backend:1.0
+    container_name: case9-backend
+    # ports:
+    #   - "${BACKEND_PORT}:8000"
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+  case9-frontend:
+    image: claude-aiagent-case9-frontend:1.0
+    container_name: case9-frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    depends_on:
+      - case9-backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+networks:
+  aiagent-network:
+    external: true

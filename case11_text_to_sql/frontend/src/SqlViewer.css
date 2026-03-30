@@ -1,0 +1,115 @@
+/* SqlViewer.css — SQL 查詢視覺化（Case 11） */
+
+.sv-panel {
+  margin-bottom: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-left: 3px solid #4a9eff;
+  background: var(--input-bg);
+  overflow: hidden;
+}
+
+.sv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 8px;
+  text-align: left;
+}
+.sv-header:hover {
+  background: rgba(74, 158, 255, 0.04);
+}
+
+.sv-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.sv-icon {
+  color: #4a9eff;
+  flex-shrink: 0;
+}
+
+.sv-title {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.sv-type-badge {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.sv-type-realtime {
+  background: rgba(74, 158, 255, 0.15);
+  color: #4a9eff;
+  border: 1px solid rgba(74, 158, 255, 0.3);
+}
+.sv-type-historical {
+  background: rgba(180, 126, 255, 0.15);
+  color: #b47eff;
+  border: 1px solid rgba(180, 126, 255, 0.3);
+}
+
+.sv-retry-badge {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 192, 74, 0.15);
+  color: #ffc04a;
+  border: 1px solid rgba(255, 192, 74, 0.3);
+  white-space: nowrap;
+}
+
+.sv-chevron {
+  color: var(--muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.sv-chevron--open {
+  transform: rotate(180deg);
+}
+
+.sv-body {
+  padding: 0 10px 10px;
+  border-top: 1px solid var(--border);
+  animation: sv-fade-in 0.15s ease;
+}
+@keyframes sv-fade-in {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sv-code {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 10px;
+  margin: 8px 0 0;
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+/* Light mode */
+.cb-root.light .sv-panel {
+  background: #f4f7fd;
+}
+.cb-root.light .sv-code {
+  background: rgba(0, 0, 0, 0.04);
+}

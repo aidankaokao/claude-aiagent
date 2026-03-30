@@ -1,0 +1,83 @@
+資料庫：PostgreSQL
+Schema：inventory（所有資料表名稱須加 inventory. 前綴）
+
+========================================
+inventory.products  ── 產品主檔
+========================================
+欄位：
+  id            INTEGER        主鍵，自動遞增
+  name          VARCHAR(200)   產品名稱（如：筆記型電腦、辦公椅、A4 列印紙）
+  category      VARCHAR(100)   分類，值為：'電子產品' | '辦公用品' | '家具'
+  unit          VARCHAR(20)    單位（台 / 個 / 令 / 套 / 張）
+  min_stock     INTEGER        安全庫存量（低於此值即為庫存不足）
+  current_stock INTEGER        目前庫存量（即時）
+  unit_price    NUMERIC(12,2)  單價（新台幣）
+  created_at    TIMESTAMP      建立時間
+
+使用時機：查詢目前庫存狀態（即時查詢）
+
+範例資料：
+  id=1, name='筆記型電腦', category='電子產品', unit='台', min_stock=5, current_stock=3
+
+========================================
+inventory.stock_changes  ── 庫存異動記錄
+========================================
+欄位：
+  id           INTEGER     主鍵，自動遞增
+  product_id   INTEGER     外鍵 → inventory.products(id)
+  change_type  VARCHAR(20) 異動類型：'in'（入庫/補貨）| 'out'（出庫）| 'adjustment'（盤點調整）
+  quantity     INTEGER     異動數量（正整數）
+  note         TEXT        備註（可為 NULL）
+  created_at   TIMESTAMP   異動時間
+
+使用時機：查詢具體的異動記錄、補貨歷史、最近異動頻率
+
+========================================
+inventory.daily_snapshots  ── 每日庫存快照
+========================================
+欄位：
+  id            INTEGER  主鍵，自動遞增
+  product_id    INTEGER  外鍵 → inventory.products(id)
+  snapshot_date DATE     快照日期（YYYY-MM-DD）
+  quantity      INTEGER  當日結束時的庫存量
+  min_stock     INTEGER  當日的安全庫存量
+
+使用時機：歷史趨勢分析、計算某段時間庫存不足天數、月平均庫存量等
+
+========================================
+常用查詢模式
+========================================
+
+1. 目前庫存不足的產品：
+   SELECT * FROM inventory.products WHERE current_stock < min_stock
+
+2. 過去 N 天庫存不足天數統計：
+   SELECT p.name, COUNT(*) AS low_days
+   FROM inventory.daily_snapshots ds
+   JOIN inventory.products p ON ds.product_id = p.id
+   WHERE ds.snapshot_date >= CURRENT_DATE - INTERVAL 'N days'
+     AND ds.quantity < ds.min_stock
+   GROUP BY p.id, p.name
+
+3. 某段時間異動記錄：
+   SELECT p.name, sc.change_type, sc.quantity, sc.created_at
+   FROM inventory.stock_changes sc
+   JOIN inventory.products p ON sc.product_id = p.id
+   WHERE sc.created_at >= NOW() - INTERVAL 'N days'
+
+4. 月平均庫存量（時間序列）：
+   SELECT DATE_TRUNC('month', ds.snapshot_date) AS month,
+          AVG(ds.quantity) AS avg_qty
+   FROM inventory.daily_snapshots ds
+   JOIN inventory.products p ON ds.product_id = p.id
+   WHERE p.name = '產品名稱'
+   GROUP BY month ORDER BY month
+
+========================================
+重要注意事項
+========================================
+- 所有表名必須加 inventory. 前綴
+- 只允許 SELECT 查詢，禁止 INSERT / UPDATE / DELETE / DROP 等
+- 日期函數使用 PostgreSQL 語法：
+    NOW()、CURRENT_DATE、INTERVAL 'N days'、DATE_TRUNC('month', ...)
+- 字串比較區分大小寫，請使用完整正確的值（如 '電子產品' 而非 '電子'）

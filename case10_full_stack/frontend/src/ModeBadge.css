@@ -1,0 +1,72 @@
+/* ModeBadge.css — 執行模式標示樣式（Case 10） */
+
+.mb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 7px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+  width: fit-content;
+}
+
+.mb-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mb-label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.mb-desc {
+  opacity: 0.7;
+  font-weight: 400;
+  font-size: 9px;
+}
+
+.mb-reason {
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 9px;
+  border-left: 1px solid currentColor;
+  padding-left: 6px;
+  margin-left: 2px;
+  font-family: 'Noto Sans TC', sans-serif;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chat 模式：藍色 */
+.mb-chat {
+  color: #4a9eff;
+  border-color: rgba(74, 158, 255, 0.35);
+  background: rgba(74, 158, 255, 0.08);
+}
+
+/* Tools 模式：金黃色 */
+.mb-tools {
+  color: #ffc04a;
+  border-color: rgba(255, 192, 74, 0.35);
+  background: rgba(255, 192, 74, 0.08);
+}
+
+/* Research 模式：紫色 */
+.mb-research {
+  color: #b47eff;
+  border-color: rgba(180, 126, 255, 0.35);
+  background: rgba(180, 126, 255, 0.08);
+}
+
+/* Light mode */
+.cb-root.light .mb-chat     { background: rgba(74, 158, 255, 0.06); }
+.cb-root.light .mb-tools    { background: rgba(255, 192, 74, 0.06); }
+.cb-root.light .mb-research { background: rgba(180, 126, 255, 0.06); }

@@ -1,0 +1,130 @@
+/* ToolCallPanel.css — 工具呼叫視覺化樣式（Case 10） */
+
+.tcp-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.tcp-item {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  border-left: 3px solid #ffc04a;
+}
+
+.tcp-item--running {
+  border-left-color: #ffc04a;
+  background: rgba(255, 192, 74, 0.04);
+}
+
+.tcp-item--done {
+  border-left-color: #4fc78e;
+}
+
+/* Header */
+.tcp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 8px;
+  text-align: left;
+}
+.tcp-header:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tcp-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Spinner */
+.tcp-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: #ffc04a;
+  animation: tcp-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes tcp-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Checkmark */
+.tcp-item--done .tcp-header-left svg {
+  color: #4fc78e;
+  flex-shrink: 0;
+}
+
+.tcp-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  font-family: 'DM Mono', monospace;
+}
+
+.tcp-fn-name {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+  font-family: 'DM Mono', monospace;
+  opacity: 0.7;
+}
+
+.tcp-preview {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'DM Mono', monospace;
+}
+
+/* Detail */
+.tcp-detail {
+  padding: 0 10px 8px;
+  border-top: 1px solid var(--border);
+}
+
+.tcp-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 0 3px;
+}
+
+.tcp-code {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 8px;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* Light mode */
+.cb-root.light .tcp-code {
+  background: rgba(0, 0, 0, 0.05);
+}

@@ -1,0 +1,20 @@
+{
+  "庫存不足":    "quantity < min_stock  (或 current_stock < min_stock)",
+  "低庫存":      "quantity < min_stock  (或 current_stock < min_stock)",
+  "缺貨":        "current_stock = 0  (或 quantity = 0)",
+  "庫存充足":    "quantity >= min_stock  (或 current_stock >= min_stock)",
+  "電子產品":    "category = '電子產品'",
+  "辦公用品":    "category = '辦公用品'",
+  "家具":        "category = '家具'",
+  "入庫":        "change_type = 'in'",
+  "補貨":        "change_type = 'in'",
+  "出庫":        "change_type = 'out'",
+  "盤點調整":    "change_type = 'adjustment'",
+  "過去N天":     "snapshot_date >= CURRENT_DATE - INTERVAL 'N days'",
+  "過去N天異動": "created_at >= NOW() - INTERVAL 'N days'",
+  "上個月":      "DATE_TRUNC('month', 日期欄位) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')",
+  "本月":        "DATE_TRUNC('month', 日期欄位) = DATE_TRUNC('month', CURRENT_DATE)",
+  "今天":        "snapshot_date = CURRENT_DATE  (或 DATE(created_at) = CURRENT_DATE)",
+  "庫存不足天數": "COUNT(*) WHERE quantity < min_stock",
+  "庫存不足比例": "COUNT(*) FILTER(WHERE quantity < min_stock) * 100.0 / COUNT(*)"
+}

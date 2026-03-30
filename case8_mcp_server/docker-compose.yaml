@@ -2,12 +2,10 @@ version: "3.8"
 
 services:
   case8-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
+    image: claude-aiagent-case8-backend:1.0
     container_name: case8-backend
-    ports:
-      - "${BACKEND_PORT}:8000"
+    # ports:
+    #   - "${BACKEND_PORT}:8000"
     env_file: .env
     volumes:
       - ./data:/app/data
@@ -24,9 +22,7 @@ services:
       - aiagent-network
 
   case8-frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
+    image: claude-aiagent-case8-frontend:1.0
     container_name: case8-frontend
     ports:
       - "${FRONTEND_PORT}:5173"

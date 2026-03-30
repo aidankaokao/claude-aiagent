@@ -11,7 +11,7 @@
 | Agent 框架 | LangGraph、LangChain |
 | 後端 API | FastAPI、uvicorn、sse-starlette |
 | 前端 | React、TypeScript、Vite |
-| 資料庫 | SQLite（SQLAlchemy Core） |
+| 資料庫 | SQLite（Case 1-10）、PostgreSQL 15（Case 11+，SQLAlchemy Core，非 ORM） |
 | LLM | OpenAI API（相容介面，可替換為 Gemini / Ollama） |
 | 部署 | Docker、docker-compose |
 | 語言 | Python 3.11+、TypeScript |
@@ -134,9 +134,9 @@ Phase 5: 專題篇                  ▼
 ### Phase 4: 整合篇
 
 #### Case 10: 全端整合 (`case10_full_stack`)
-- **情境**：客服平台，整合所有 Agent 模式
-- **核心概念**：ReAct + Plan-Execute + HITL + Multi-Agent 整合、JWT、生產部署
-- **學到什麼**：如何將所有學到的模式組合成生產級系統、資料庫遷移、認證授權
+- **情境**：多模式 AI 助手，同一介面支援三種模式：一般聊天（Chat）、工具呼叫（Tools）、研究多 Agent（Research）
+- **核心概念**：Router 動態路由（依使用者選擇分派 Agent）、ReAct+ToolNode 工具迴圈、Research Supervisor 多 Agent、統一 SSE 事件設計（`mode` / `tool_start` / `agent_start` / `token` / `done`）、自適應前端
+- **學到什麼**：如何在單一後端整合不同 Agent 架構並用一套 SSE 協定對外、前端如何依模式動態切換視覺元件（ModeBadge、ToolCallPanel、AgentFlow）、10 個前端整合常見陷阱（langgraph_node 過濾、run_id 配對、assistantIdx 固定等）
 - **教學文件**：[case10_full_stack.md](./case10_full_stack.md)
 
 ### Phase 5: 專題篇
@@ -154,18 +154,18 @@ Phase 5: 專題篇                  ▼
 |--------|------|
 | Schema 注入 | 將資料表結構（欄位名、型別、外鍵）注入 prompt，讓 LLM 知道「有什麼可以查」 |
 | 術語對應表（alias mapping） | 建立業務用語 → 欄位名的對應（如「庫存不足」→ `quantity < min_stock`），解決專有名詞問題 |
-| Few-shot SQL 範例 | prompt 中提供 3-5 個問答範例，顯著提升複雜查詢的生成品質 |
+| Few-shot SQL 範例 | prompt 中提供 7 個問答範例，顯著提升複雜查詢的生成品質 |
 | SQL 安全驗證節點 | Agent graph 中加入驗證節點，拒絕 DDL/DML，只允許 SELECT |
-| 錯誤自修正迴圈 | SQL 執行失敗時，將錯誤訊息回饋給 LLM，讓它重新生成（最多重試 N 次） |
-| SQLite / PostgreSQL 雙模式 | 以環境變數 `DB_TYPE` 切換，SQLAlchemy 自動適配，學習生產環境遷移 |
+| 錯誤自修正迴圈 | SQL 執行失敗時，將錯誤訊息回饋給 LLM，讓它重新生成（最多重試 2 次） |
+| PostgreSQL 15 + 自訂 schema | `MetaData(schema="inventory")` 讓所有資料表自動帶 schema 前綴；`init_db()` 先建 schema 再 `create_all` |
 
-**資料庫 Schema**：
+**資料庫 Schema（PostgreSQL 15，schema = `inventory`）**：
 
 ```
-products          — 產品主檔（同 Case 3）
-stock_changes     — 每次異動記錄，含 created_at 時間戳
-daily_snapshots   — 每日庫存快照（product_id, date, quantity, min_stock）
-                    用於時間序列計算，避免從 stock_changes 重建歷史狀態的複雜度
+inventory.products        — 產品主檔（id, name, category, unit, min_stock, current_stock, unit_price）
+inventory.stock_changes   — 每次異動記錄（product_id, change_type, quantity, created_at）
+inventory.daily_snapshots — 每日庫存快照（product_id, snapshot_date, quantity, min_stock）
+                            用於時間序列計算，30 天快照（10 產品 × 30 天 = 300 筆）
 ```
 
 `daily_snapshots` 是關鍵設計：直接從快照計算「某天庫存是否不足」，比從異動記錄推算簡單得多，SQL 也更容易讓 LLM 生成正確。
@@ -176,89 +176,91 @@ daily_snapshots   — 每日庫存快照（product_id, date, quantity, min_stock
 START
   │
   ▼
-[classify_node]        ← 判斷問題是即時查詢還是歷史分析
-  │                       即時 → 附上 products 表 schema
-  │                       歷史 → 附上 daily_snapshots + stock_changes schema
-  ▼
-[sql_generate_node]    ← schema + alias_map + few-shot → LLM 生成 SQL
+[classify_node]        ← 判斷問題是即時查詢（realtime）還是歷史分析（historical）
   │
   ▼
-[sql_validate_node]    ← 驗證只含 SELECT，無危險關鍵字
-  │ 驗證失敗 → 直接回傳錯誤，不執行
+[sql_generate_node]    ← schema_info.txt + alias_map.json + few_shot.json → LLM 生成 SQL
+  │
   ▼
-[sql_execute_node]     ← 執行 SQL，捕捉錯誤
-  │ 執行失敗 → 將錯誤回饋給 sql_generate_node（最多重試 2 次）
+[sql_validate_node]    ← 驗證只含 SELECT，無危險關鍵字（純 Python，不呼叫 LLM）
+  │ 驗證失敗 → route_after_validate → format_node（直接回傳錯誤說明）
   ▼
-[format_node]          ← 將查詢結果格式化為易讀文字
+[sql_execute_node]     ← 執行 SQL，捕捉錯誤，retry_count++
+  │ 執行失敗 + retry_count < 2 → route_after_execute → sql_generate_node（帶入錯誤訊息重試）
+  ▼
+[format_node]          ← LLM 將查詢結果格式化為易讀文字（串流輸出）
   │
   ▼
 END
 ```
 
-**雙資料庫模式**：
+**State 設計**：
 
 ```python
-# config.py
-DB_TYPE = "sqlite"   # 或 "postgres"
-SQLITE_PATH = "data/inventory.db"
-POSTGRES_URL = "postgresql://user:pass@host:5432/db"
-
-# database.py
-if settings.db_type == "postgres":
-    engine = create_engine(settings.postgres_url)
-else:
-    engine = create_engine(f"sqlite:///{settings.sqlite_path}")
+class Text2SQLState(TypedDict):
+    messages:       Annotated[list, add_messages]
+    question:       str
+    query_type:     str    # "realtime" | "historical"
+    schema_context: str    # 注入的 schema 文字
+    sql_query:      str    # 生成的 SQL
+    sql_error:      str    # "" = 無錯誤；"VALIDATION_ERROR:..." 或執行期錯誤
+    sql_result:     str    # JSON 格式的查詢結果
+    retry_count:    int    # 重試次數（≤ 2）
+    final_answer:   str
 ```
 
-SQLAlchemy Core 的查詢語法在兩種資料庫下幾乎相同；差異點（如日期函數）集中在 `sql_generate_node` 的 prompt 中用 `DB_TYPE` 動態說明。
+**SSE 事件設計**：
+
+| 事件 | 觸發時機 | payload |
+|------|---------|---------|
+| `sql_query` | `sql_generate_node` 完成後（`on_chain_end` name=="generate"） | `{sql, query_type, attempt}` |
+| `token` | `format_node` 串流中（`on_chat_model_stream` node=="format"） | `{content}` |
+| `done` | 串流結束 | `{conversation_id}` |
+| `error` | 例外捕捉 | `{message}` |
 
 **資料夾結構**：
 
 ```
 case11_text_to_sql/
   backend/
-    agent.py              # Text2SQLAgent（classify → generate → validate → execute → format）
-    nodes/
-      __init__.py
-      classify.py         # 問題分類：即時 vs 歷史，選擇對應 schema
-      sql_generate.py     # schema + alias_map + few_shot → LLM → SQL
-      sql_validate.py     # SQL 白名單驗證（只允許 SELECT）
-      sql_execute.py      # 執行 SQL + 錯誤捕捉 + 重試計數
-      format.py           # 查詢結果 → 易讀文字
+    agent.py              # Text2SQLAgent（5 個節點 + 2 個路由函數）
+    api.py                # FastAPI：/api/conversations、/api/chat（SSE）
+    database.py           # PostgreSQL + MetaData(schema="inventory") + init_db()
+    models.py             # LlmConfig、ChatRequest、ConversationResponse
+    config.py             # Settings（postgres_url、db_schema="inventory"）
+    seed_data.py          # 從 seed_data.json 寫入 PostgreSQL（CLI --postgres-url）
+    seed_data.json        # 10 產品、29 異動記錄、300 每日快照
     prompts/
-      schema_sqlite.txt   # SQLite 版 schema 說明（含欄位描述）
-      schema_postgres.txt # PostgreSQL 版 schema 說明（日期函數差異）
+      schema_info.txt     # PostgreSQL schema 說明（inventory. 前綴、日期函數）
       alias_map.json      # 業務術語 → SQL 表達對應表
-      few_shot.json       # 3-5 個問答 + SQL 範例
-    api.py
-    database.py           # SQLite / PostgreSQL 雙模式切換
-    models.py
-    config.py
-    seed_data.py          # 產品 + 90 天歷史異動 + daily_snapshots
+      few_shot.json       # 7 個問答 + SQL 範例（含 query_type 標注）
     requirements.txt
   frontend/
     src/
       App.tsx
-      Chat.tsx
+      Chat.tsx            # SSE dispatch：sql_query→SqlViewer、token→bubble 串流
       Chat.css
-      SqlViewer.tsx       # 顯示本次生成的 SQL（可展開/收合）
+      SqlViewer.tsx       # 顯示 SQL + 查詢類型徽章 + 重試徽章（可展開/收合）
       SqlViewer.css
       main.tsx
-    ...
-  docker-compose.yaml     # 預設 SQLite；含 PostgreSQL profile（可選啟動）
+    index.html
+    package.json
+    vite.config.ts
+    tsconfig.json / tsconfig.node.json
+  docker-compose.yaml     # case11-postgres（postgres:15，無對外 port）+ backend + frontend
   Dockerfile.backend
   Dockerfile.frontend
-  .env.example
+  .env.example            # BACKEND_PORT=8016, FRONTEND_PORT=8017
   qa.md
 ```
 
-**前端特色**：`SqlViewer` 元件顯示 Agent 本次生成並執行的 SQL，讓使用者能驗證查詢邏輯是否符合預期（透明度設計）。
+**前端特色**：`SqlViewer` 元件顯示 Agent 本次生成並執行的 SQL，附查詢類型徽章（即時查詢＝藍、歷史分析＝紫）及重試徽章（重試次數 > 1 時顯示），讓使用者能驗證查詢邏輯是否符合預期（透明度設計）。
 
 **能回答的問題範例**：
 - 「查詢目前所有庫存不足的電子產品」（即時）
-- 「過去 30 天智慧型手機庫存不足的天數佔比是多少？」（歷史趨勢）
-- 「上個月庫存異動最頻繁的前 5 個產品」（歷史統計）
-- 「家居產品在過去 90 天平均庫存量的月趨勢」（時間序列）
+- 「過去 30 天哪些產品庫存不足時間超過 50%？」（歷史趨勢）
+- 「上個月庫存異動最頻繁的前 3 個產品」（歷史統計）
+- 「辦公用品的平均庫存覆蓋率趨勢」（時間序列）
 
 **教學文件**：[case11_text_to_sql.md](./case11_text_to_sql.md)
 
@@ -480,8 +482,9 @@ class {Purpose}Agent:
 ```
 
 ### 資料庫
-- SQLite + SQLAlchemy Core（不使用 ORM）
-- 設計時考慮 Postgres 相容性
+- SQLAlchemy Core（不使用 ORM），Case 1-10 用 SQLite，Case 11+ 用 PostgreSQL 15
+- PostgreSQL 使用自訂 schema（非 public），`MetaData(schema=...)` 自動帶 schema 前綴
+- `init_db()` 先執行 `CREATE SCHEMA IF NOT EXISTS` 再 `create_all`
 
 ### 前端設計
 - 深藍金色主題（深色預設，`.light` 亮色覆寫）
@@ -508,7 +511,7 @@ class {Purpose}Agent:
 | Case 6 | ✅ 完成 | Human-in-the-Loop（3 階段 interrupt：數量確認→商品選擇→訂單審批、AsyncSqliteSaver、candidate_ids 語意比對） |
 | Case 7 | ✅ 完成 | Prompt & Skills（SKILL.md 檔案式技能、意圖分類→條件路由、few-shot XML 注入、Prompt Playground） |
 | Case 8 | ✅ 完成 | MCP Server（FastMCP stdio、langchain-mcp-adapters、MultiServerMCPClient lifespan、知識庫側邊欄） |
-| Case 9 | ⏳ 待開始 | |
-| Case 10 | ⏳ 待開始 | |
-| Case 11 | ⏳ 待開始 | Text-to-SQL Agent |
+| Case 9 | ✅ 完成 | Multi-Agent Supervisor（Command goto 動態路由、with_structured_output 路由決策、langgraph_node 事件過濾、AgentFlow inline 視覺化、SSE \r\n 行結尾解析） |
+| Case 10 | ✅ 完成 | 全端整合（Router 動態路由 3 模式、ReAct+ToolNode 工具迴圈、Research Multi-Agent、統一 SSE 事件設計、自適應前端 ModeBadge + ToolCallPanel + AgentFlow） |
+| Case 11 | ✅ 完成 | Text-to-SQL Agent（PostgreSQL 15、inventory schema、classify→generate→validate→execute 重試迴圈、SqlViewer 前端） |
 | Case 12 | ⏳ 待開始 | 企業採購申請（5 道 interrupt、序列多層審批、AsyncPostgresSaver） |

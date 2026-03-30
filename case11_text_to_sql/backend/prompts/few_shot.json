@@ -1,0 +1,37 @@
+[
+  {
+    "question": "查詢目前所有庫存不足的產品",
+    "query_type": "realtime",
+    "sql": "SELECT id, name, category, current_stock, min_stock, unit\nFROM inventory.products\nWHERE current_stock < min_stock\nORDER BY (current_stock::float / NULLIF(min_stock, 0)) ASC;"
+  },
+  {
+    "question": "電子產品中目前庫存量最少的 3 個產品",
+    "query_type": "realtime",
+    "sql": "SELECT id, name, current_stock, min_stock, unit, unit_price\nFROM inventory.products\nWHERE category = '電子產品'\nORDER BY current_stock ASC\nLIMIT 3;"
+  },
+  {
+    "question": "過去 30 天哪些產品庫存不足天數超過 10 天？",
+    "query_type": "historical",
+    "sql": "SELECT p.name, p.category, COUNT(*) AS low_stock_days\nFROM inventory.daily_snapshots ds\nJOIN inventory.products p ON ds.product_id = p.id\nWHERE ds.snapshot_date >= CURRENT_DATE - INTERVAL '30 days'\n  AND ds.quantity < ds.min_stock\nGROUP BY p.id, p.name, p.category\nHAVING COUNT(*) > 10\nORDER BY low_stock_days DESC;"
+  },
+  {
+    "question": "過去 30 天各產品庫存不足的比例是多少？",
+    "query_type": "historical",
+    "sql": "SELECT p.name, p.category,\n       COUNT(*) AS total_days,\n       COUNT(*) FILTER (WHERE ds.quantity < ds.min_stock) AS low_days,\n       ROUND(COUNT(*) FILTER (WHERE ds.quantity < ds.min_stock) * 100.0 / COUNT(*), 1) AS low_pct\nFROM inventory.daily_snapshots ds\nJOIN inventory.products p ON ds.product_id = p.id\nWHERE ds.snapshot_date >= CURRENT_DATE - INTERVAL '30 days'\nGROUP BY p.id, p.name, p.category\nORDER BY low_pct DESC;"
+  },
+  {
+    "question": "上個月庫存異動最頻繁的前 5 個產品",
+    "query_type": "historical",
+    "sql": "SELECT p.name, p.category, COUNT(*) AS change_count\nFROM inventory.stock_changes sc\nJOIN inventory.products p ON sc.product_id = p.id\nWHERE DATE_TRUNC('month', sc.created_at) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')\nGROUP BY p.id, p.name, p.category\nORDER BY change_count DESC\nLIMIT 5;"
+  },
+  {
+    "question": "過去 7 天的入庫記錄",
+    "query_type": "historical",
+    "sql": "SELECT p.name, sc.quantity, sc.note, sc.created_at\nFROM inventory.stock_changes sc\nJOIN inventory.products p ON sc.product_id = p.id\nWHERE sc.change_type = 'in'\n  AND sc.created_at >= NOW() - INTERVAL '7 days'\nORDER BY sc.created_at DESC;"
+  },
+  {
+    "question": "筆記型電腦過去 30 天每週的平均庫存量",
+    "query_type": "historical",
+    "sql": "SELECT DATE_TRUNC('week', ds.snapshot_date) AS week_start,\n       AVG(ds.quantity) AS avg_stock\nFROM inventory.daily_snapshots ds\nJOIN inventory.products p ON ds.product_id = p.id\nWHERE p.name = '筆記型電腦'\n  AND ds.snapshot_date >= CURRENT_DATE - INTERVAL '30 days'\nGROUP BY week_start\nORDER BY week_start;"
+  }
+]

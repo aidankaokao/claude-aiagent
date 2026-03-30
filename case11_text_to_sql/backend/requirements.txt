@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sse-starlette
+langchain
+langchain-openai
+langgraph
+sqlalchemy
+psycopg[binary]
+pydantic-settings

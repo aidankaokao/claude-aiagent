@@ -71,9 +71,9 @@ claude-aiagent/
 ├── case6_hitl/                  # Case 6: Human-in-the-Loop ✅
 ├── case7_prompt_skills/         # Case 7: Prompt & Skills ✅
 ├── case8_mcp_server/            # Case 8: MCP Server ⏳
-├── case9_multi_agent/           # Case 9: 多 Agent 系統 ⏳
-├── case10_full_stack/           # Case 10: 全端整合 ⏳
-├── case11_text_to_sql/          # Case 11: Text-to-SQL Agent ⏳
+├── case9_multi_agent/           # Case 9: 多 Agent 系統 ✅
+├── case10_full_stack/           # Case 10: 全端整合 ✅
+├── case11_text_to_sql/          # Case 11: Text-to-SQL Agent 🔧
 └── case12_procurement_hitl/     # Case 12: 企業採購申請 HITL（PostgreSQL） ⏳
 ```
 
@@ -86,7 +86,7 @@ claude-aiagent/
 | Agent 框架 | LangGraph、LangChain |
 | 後端 API | FastAPI、uvicorn、sse-starlette |
 | 前端 | React、TypeScript、Vite |
-| 資料庫 | SQLite（SQLAlchemy Core，非 ORM） |
+| 資料庫 | SQLite（Case 1-10）、PostgreSQL 15（Case 11+，SQLAlchemy Core，非 ORM） |
 | 部署 | Docker、docker-compose |
 
 ---
@@ -136,7 +136,12 @@ class {Purpose}Agent:
 - SQLAlchemy Core（`Table` + `MetaData`），**不使用 ORM**
 - `metadata.create_all(engine)` 自動建表
 - 所有查詢使用 `connection.execute(select(...))`
-- 設計時考慮 PostgreSQL 相容性
+- **PostgreSQL（Case 11+）**：
+  - image 使用 `postgres:15`，schema 不使用 `public`（自訂 schema 名稱）
+  - `MetaData(schema="<schema_name>")` 指定 schema
+  - `init_db()` 先執行 `CREATE SCHEMA IF NOT EXISTS <schema>` 再 `create_all`
+  - Container 內 postgres 不對外暴露 port，只供同網路的後端容器使用
+  - `seed_data.py` 從 `seed_data.json` 讀取資料，透過 SQLAlchemy Core 寫入 PostgreSQL
 - `Settings` 中的 `db_path` 預設相對路徑，Container 內映射至 volume
 
 ### Docker 規範
@@ -190,7 +195,7 @@ case{N}_{name}/
 | Case 6 | ✅ 完成 | Human-in-the-Loop（3 階段 interrupt：數量確認→商品選擇→訂單審批、AsyncSqliteSaver、candidate_ids 語意比對） |
 | Case 7 | ✅ 完成 | Prompt & Skills 設計（意圖分類條件路由、SKILL.md 檔案式技能、SkillRegistry、few-shot XML 注入、Prompt Playground） |
 | Case 8 | ✅ 完成 | MCP Server 開發（FastMCP stdio server、langchain-mcp-adapters、MultiServerMCPClient lifespan、KnowledgeBase 側邊欄） |
-| Case 9 | ⏳ 待開發 | 多 Agent 系統 |
-| Case 10 | ⏳ 待開發 | 全端整合 |
-| Case 11 | ⏳ 待開發 | Text-to-SQL Agent（庫存歷史分析、schema 注入、alias mapping、SQL 驗證、SQLite/PostgreSQL 雙模式） |
+| Case 9 | ✅ 完成 | 多 Agent 系統（Supervisor 模式、Command goto、with_structured_output、AgentFlow inline 視覺化、SSE \r\n 行結尾解析） |
+| Case 10 | ✅ 完成 | 全端整合（Router 動態路由、ReAct+ToolNode、Research Multi-Agent、mode/tool_start/agent_start 統一 SSE 設計、ModeBadge + ToolCallPanel + AgentFlow 自適應前端） |
+| Case 11 | 🔧 開發中 | Text-to-SQL Agent（PostgreSQL 15、inventory schema、schema 注入、alias_map、few-shot SQL、SQL 驗證、錯誤自修正重試、SqlViewer 前端） |
 | Case 12 | ⏳ 待開發 | 企業採購申請 HITL（AsyncPostgresSaver、5 道 interrupt 關卡、序列式多層審批、審批歷程記錄） |

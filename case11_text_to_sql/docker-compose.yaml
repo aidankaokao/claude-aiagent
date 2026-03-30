@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  case11-postgres:
+    image: postgres:15
+    container_name: case11-postgres
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: inv_secure_2024
+      POSTGRES_DB: inventorydb
+    volumes:
+      - claude-aiagent-case11-pgdata:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"   # 本地開發用（seed_data.py）；生產環境請保持注解
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d inventorydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+  case11-backend:
+    image: claude-aiagent-case11-backend:1.0
+    container_name: case11-backend
+    # ports:
+    #   - "${BACKEND_PORT}:8000"
+    env_file: .env
+    depends_on:
+      case11-postgres:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+  case11-frontend:
+    image: claude-aiagent-case11-frontend:1.0
+    container_name: case11-frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    depends_on:
+      - case11-backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "developer=${DEVELOPER_NAME}"
+      - "project.path=${PROJECT_PATH}"
+    restart: unless-stopped
+    networks:
+      - aiagent-network
+
+volumes:
+  claude-aiagent-case11-pgdata:
+
+networks:
+  aiagent-network:
+    external: true
